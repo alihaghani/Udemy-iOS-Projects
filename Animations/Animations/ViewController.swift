@@ -12,22 +12,34 @@ class ViewController: UIViewController {
     
     var counter = 0
     
+    var timer = NSTimer()
+    
+    var isAnimating = true
+    
     @IBOutlet var image: UIImageView!
     @IBAction func updateImage(sender: AnyObject) {
         
-        if counter == 6 {
-            counter = 0
-        }
-        
-        counter++
-        
-        image.image = UIImage(named: "frame\(counter).jpg")
+        isAnimating = !isAnimating
         
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(ViewController.doAnimation), userInfo: nil, repeats: true)
+        
+    }
+    
+    func doAnimation() {
+        while(isAnimating){
+            if counter == 6 {
+                counter = 0
+            }
+            
+            counter += 1
+            
+            image.image = UIImage(named: "frame\(counter).jpg")
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -35,9 +47,11 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    /*
     override func viewDidLayoutSubviews() {
         
-        image.center = CGPointMake(image.center.x - 400, image.center.y)
+        
+        image.alpha = 0
         
     }
     
@@ -45,13 +59,14 @@ class ViewController: UIViewController {
         
         UIView.animateWithDuration(1) { () -> Void in
             
-            self.image.center = CGPointMake(self.image.center.x + 400, self.image.center.y)
+            self.image.alpha = 1
             
         }
         
         
         
     }
+ */
 
 
 }
