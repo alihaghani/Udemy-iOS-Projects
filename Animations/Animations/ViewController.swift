@@ -19,7 +19,13 @@ class ViewController: UIViewController {
     @IBOutlet var image: UIImageView!
     @IBAction func updateImage(sender: AnyObject) {
         
-        isAnimating = !isAnimating
+        if (isAnimating){
+            timer.invalidate()
+            isAnimating = false
+        } else {
+            timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(ViewController.doAnimation), userInfo: nil, repeats: true)
+            isAnimating = true
+        }
         
     }
 
@@ -31,7 +37,6 @@ class ViewController: UIViewController {
     }
     
     func doAnimation() {
-        while(isAnimating){
             if counter == 6 {
                 counter = 0
             }
@@ -39,7 +44,6 @@ class ViewController: UIViewController {
             counter += 1
             
             image.image = UIImage(named: "frame\(counter).jpg")
-        }
     }
 
     override func didReceiveMemoryWarning() {
